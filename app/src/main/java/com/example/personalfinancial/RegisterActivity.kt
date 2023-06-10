@@ -59,14 +59,14 @@ public class RegisterActivity : AppCompatActivity() {
 
         passwordVisibilityImageView.setOnClickListener {
 
-            if (usernameEditText.text.isEmpty()) {
+            if (passwordEditText.text.isEmpty()) {
                 Toast.makeText(applicationContext, "Please enter password first", Toast.LENGTH_SHORT).show()
             } else {
                 val isPasswordVisible = passwordEditText.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
 
                 if (isPasswordVisible) {
                     // Hide the password
-                    passwordEditText.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                     passwordVisibilityImageView.setImageResource(R.drawable.visibility_icon)
                 } else {
                     // Show the password
@@ -135,7 +135,7 @@ public class RegisterActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     runOnUiThread {
                         Toast.makeText(applicationContext, "Registration successful", Toast.LENGTH_SHORT).show()
-                        // Redirect to the login activity or perform necessary actions
+                        navigateToLoginPage()
                     }
                 } else {
                     runOnUiThread {
@@ -144,5 +144,11 @@ public class RegisterActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun navigateToLoginPage() {
+        val intent = Intent(applicationContext, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

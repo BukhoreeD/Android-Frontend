@@ -1,6 +1,8 @@
 package com.example.personalfinancial
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import android.widget.Button
@@ -21,7 +23,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var boldSignupTextView: TextView
+    private lateinit var forgotPasswordTextView: TextView
     private lateinit var passwordVisibilityImageView: ImageView
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +35,20 @@ class LoginActivity : AppCompatActivity() {
         usernameEditText = findViewById(R.id.usernameEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
-        boldSignupTextView = findViewById(R.id.boldSignupTextView)
+        boldSignupTextView = findViewById(R.id.backToSignUpTextView)
+        forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView)
         passwordVisibilityImageView = findViewById(R.id.passwordVisibilityImageView)
+
+        sharedPreferences = getSharedPreferences("Myprefs", Context.MODE_PRIVATE)
+
+            // Redirect to the main activity when authToken not null
+            val storedAuthToken = sharedPreferences.getString("authToken", null)
+            if (storedAuthToken != null) {
+                // Redirect to the home activity
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish() // Optional: finish the current activity to prevent the user from going back
+            }
 
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
@@ -70,6 +87,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        forgotPasswordTextView.setOnClickListener{
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun authenticateUser(username: String, password: String) {
@@ -97,7 +118,6 @@ class LoginActivity : AppCompatActivity() {
             .post(requestBody.toRequestBody(mediaType))
             .build()
 
-
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 // Handle API call failure
@@ -107,19 +127,57 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val responseBody = response.body?.string()
-                // Process the API response and handle success or failure
+                val token = response.body?.string()
+                // Store the authentication token in SharedPreferences
+                val editor = sharedPreferences.edit()
+                editor.putString("authToken", token)
+                editor.putString("username", username)
+                editor.apply()
+
                 if (response.isSuccessful) {
                     // User authenticated successfully
                     runOnUiThread {
                         Toast.makeText(applicationContext, "Login successful", Toast.LENGTH_SHORT).show()
                         // Redirect to the main activity or perform necessary actions
+                        val storedAuthToken = sharedPreferences.getString("authToken", null)
+                        if (storedAuthToken != null) {
+                            // Redirect to the home activity
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            storedUserId(username, token!!)
+                            finish() // Optional: finish the current activity to prevent the user from going back
+                        }
+
                     }
                 } else {
                     // User authentication failed
                     runOnUiThread {
                         Toast.makeText(applicationContext, "Login failed", Toast.LENGTH_SHORT).show()
                     }
+                }
+            }
+        })
+    }
+
+    private fun storedUserId(username: String, authToken: String) {
+        val client = OkHttpClient()
+        // Fetch user id from API
+        val requestUserId = Request.Builder()
+            .url("http://10.0.2.2:8080/auth/users/$username/id")
+            .header("Authorization", "Bearer $authToken")
+            .build()
+
+        client.newCall(requestUserId).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.body?.let {
+                    val userId = response.body?.string()
+                    val editor = sharedPreferences.edit()
+                    editor.putString("user_id", userId)
+                    editor.apply()
                 }
             }
         })

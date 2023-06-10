@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ForgotPasswordActivity"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verification"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        app:srcCompat="@drawable/icon" />
+
+    <TextView
+        android:id="@+id/enterEmailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Enter Verification Code"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/resetCodeIconImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/icon"
+        android:src="@drawable/ic_confirmation_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterEmailTextView"
+        app:tint="@color/gray" />
+
+    <EditText
+        android:id="@+id/resetCodeEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:autofillHints="resetCode"
+        android:hint="Reset Code"
+        android:inputType="number"
+        android:padding="8dp"
+        app:backgroundTint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/resetCodeIconImageView"
+        app:layout_constraintTop_toTopOf="@+id/resetCodeIconImageView" />
+
+    <ImageView
+        android:id="@+id/passwordIconImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/icon"
+        android:src="@drawable/lock_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resetCodeIconImageView"
+        app:tint="@color/gray" />
+
+    <EditText
+        android:id="@+id/newPasswordEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/gray"
+        android:hint="New Password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        app:layout_constraintEnd_toStartOf="@id/newPasswordVisibilityImageView"
+        app:layout_constraintStart_toEndOf="@id/passwordIconImageView"
+        app:layout_constraintTop_toTopOf="@id/passwordIconImageView"
+        android:autofillHints="password" />
+
+    <ImageView
+        android:id="@+id/newPasswordVisibilityImageView"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/visibility_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/passwordEditText"
+        app:layout_constraintTop_toTopOf="@id/newPasswordEditText"
+        app:tint="@color/gray"
+        android:contentDescription="@string/icon" />
+
+    <EditText
+        android:id="@+id/confirmNewPasswordEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:autofillHints="password"
+        android:backgroundTint="@color/gray"
+        android:hint="Confirm New Password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        app:layout_constraintEnd_toStartOf="@id/newPasswordVisibilityImageView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/passwordIconImageView"
+        app:layout_constraintTop_toTopOf="@+id/confirmNewPasswordIconImageView" />
+
+    <ImageView
+        android:id="@+id/confirmNewPasswordIconImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/icon"
+        android:src="@drawable/lock_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordEditText"
+        app:tint="@color/gray" />
+
+    <ImageView
+        android:id="@+id/confirmNewPasswordVisibilityImageView"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/visibility_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/newPasswordEditText"
+        app:layout_constraintTop_toTopOf="@id/newPasswordEditText"
+        app:tint="@color/gray"
+        android:contentDescription="@string/password_visibility" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/light_pink"
+        android:text="Send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmNewPasswordEditText" />
+
+    <TextView
+        android:id="@+id/dontReceiveCodeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="32dp"
+        android:text="Don’t receive code ?"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
+
+    <TextView
+        android:id="@+id/resendCodeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Re-send"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/dontReceiveCodeTextView"
+        app:layout_constraintTop_toTopOf="@id/dontReceiveCodeTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
